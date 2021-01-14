@@ -11,6 +11,85 @@ todo  第一课必做作业
 
 （必做） /src/myclassloader.class
 
+```java
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+/**
+ * @program: JAVA-01
+ * @description: 第一课 第二题
+ * @author: zhxy
+ * @create: 2021-01-13 23:58
+ **/
+public class MyClassLoader extends ClassLoader {
+
+    private static final String filePath = "D:\\java\\JAVA-01\\Week_01\\src\\Hello.xlass";
+
+    public static void main(String[] args) {
+        try {
+            Object o = new MyClassLoader().findClass("Hello").newInstance();
+            Method m = o.getClass().getMethod("hello");
+            m.invoke(o);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 自定义classloader
+     * @param name
+     * @return
+     * @throws ClassNotFoundException
+     */
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        byte[] data = new byte[0];
+        try {
+             data = readFile(filePath);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return defineClass(name, data, 0, data.length);
+
+    }
+
+    private byte[] readFile(String filePath) throws Exception {
+        File file = new File(filePath);
+        FileInputStream fis = null;
+        ByteArrayOutputStream baos = null;
+
+        byte[] bytes = new byte[1024];
+        byte[] readByte = null;
+        try{
+            baos = new ByteArrayOutputStream();
+            fis = new FileInputStream(file);
+            int length;
+            while ((length = fis.read(bytes))!=-1){
+                baos.write(bytes,0,length);
+            }
+            readByte = baos.toByteArray();
+            byte b;
+            for (int i = 0; i < readByte.length; i++) {
+                b = (byte) (255 - readByte[i]);
+                readByte[i] = b;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            fis.close();
+            baos.close();
+        }
+
+        return readByte;
+    }
+}
+
+```
+
 3、画一张图，展示 Xmx、Xms、Xmn、Meta、DirectMemory、Xss 这些内存参数的 关系。
 (必做)
 
@@ -23,8 +102,10 @@ Xmn : 新生代大小
 Xss: 为jvm启动的每个线程分配的内存大小，默认JDK1.4中是256K，JDK1.5+中是1M
 
 Meta ：XX:MetaspaceSize、-XX:MaxMetaspaceSize 分别设置元空间最小大小与最大大小（Java8以后）
- 
-todo 放图
+
+
+
+![Image text](https://raw.githubusercontent.com/loadingzxy/JAVA-01/main/Week_01/jvm.png)
 
 
 
