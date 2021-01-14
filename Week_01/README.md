@@ -110,8 +110,18 @@ Meta ：XX:MetaspaceSize、-XX:MaxMetaspaceSize 分别设置元空间最小大�
 
 
 20210104 
-todo 第二课必做作业
+ 第二课必做作业
 
 1、本机使用 G1 GC 启动一个程序，仿照课上案例分析一下 JVM 情况
+这个地方由于时间关系听的不是很细致，暂时先放上一张可视化的jvm分析进行整理
+
+首先是jmap
+
+![Image text](https://raw.githubusercontent.com/loadingzxy/JAVA-01/main/Week_01/jamp.jpg)
+
+其次是可视化的两个界面
+
+![Image text](https://raw.githubusercontent.com/loadingzxy/JAVA-01/main/Week_01/jvm.png)
+![Image text](https://raw.githubusercontent.com/loadingzxy/JAVA-01/main/Week_01/jvm.png)
 
 
